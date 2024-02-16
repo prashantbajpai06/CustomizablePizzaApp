@@ -1,0 +1,30 @@
+<div>
+    <div class="pizza-builder-container">
+      <h1 class="pizza-builder-heading">PizzaMania</h1>
+      <h2 class="pizza-builder-heading">Build Your Customizable Pizza</h2>
+      <div class="pizza-builder-form">
+
+        <app-diet-options></app-diet-options>
+
+        <app-crust-size> (crustSizeSelected)="onSelectCrustSize($event)"> </app-crust-size>
+
+        <app-sauce></app-sauce>
+
+        <app-cheese></app-cheese>
+
+        <app-toppings></app-toppings>
+
+        <!-- Display Total Cost -->
+        <div class="total-cost">
+            <p>Total Cost: {{ totalCost  | currency:'INR':'symbol' }}</p>
+        </div>
+
+        <!-- Place Order Button -->
+        <button class="btn" (click)="placeOrder()">Place Order</button>
+
+        <!-- Order Confirmation Message -->
+        <div *ngIf="orderPlaced">
+          <p>Congratulations! Your order with ID <strong>{{ orderId }}</strong> has been placed successfully.</p>
+        </div>
+      </div>      
+  </div>

@@ -1,0 +1,11 @@
+<div class="form-group">
+    <label class="form-label">Toppings:</label>
+    <div class="toppings-list">
+    <div *ngFor="let topping of toppings">
+        <label>
+        <input type="checkbox" (change)="updateSelectedToppings(topping.type, $event)">
+        {{ topping.type }} (+{{ topping.cost | currency: 'INR':true }})
+        </label>
+    </div>
+    </div>
+</div>  

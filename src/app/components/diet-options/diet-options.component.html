@@ -1,0 +1,17 @@
+<div class="form-group">
+    <label class="form-label">Choose Pizza Type:</label>
+    <label class="form-label">
+      <input type="radio" name="pizzaType" value="vegetarian" (change)="updateSelectedDiet('vegetarian')"> Vegetarian
+    </label>
+    <label class="form-label">
+      <input type="radio" name="pizzaType" value="nonvegetarian" (change)="updateSelectedDiet('nonvegetarian')"> Non-Vegetarian
+    </label>
+  
+    <!-- Display options based on selected diet -->
+    <div *ngIf="selectedDiet === 'vegetarian'">
+      <!-- Include vegetarian options -->
+    </div>
+    <div *ngIf="selectedDiet === 'nonvegetarian'">
+      <!-- Include non-vegetarian options -->
+    </div>
+  </div>  

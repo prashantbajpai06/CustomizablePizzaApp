@@ -1,0 +1,6 @@
+<div class="form-group">
+  <label class="form-label">Choose Sauce:</label>
+  <select class="form-control" [(ngModel)]="selectedSauce" (change)="updateSelectedSauce()">
+    <option *ngFor="let sauce of sauces" [value]="sauce.type">{{ sauce.type }}</option>
+  </select>
+</div>
