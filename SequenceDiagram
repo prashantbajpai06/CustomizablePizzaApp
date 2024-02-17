@@ -1,0 +1,11 @@
+Sequence Diagram: Place Order
+
+1. Customer sends a "Place Order" request from the Angular Frontend.
+2. Angular Frontend forwards the request to the .NET Backend API.
+3. .NET Backend API receives the "Place Order" request.
+4. .NET Backend API validates the request and processes it.
+5. .NET Backend API interacts with the FileSystem to store the order details.
+6. FileSystem stores the order information.
+7. .NET Backend API sends a response to the Angular Frontend indicating successful order placement.
+8. Angular Frontend receives the response and updates the UI to display a confirmation message.
+9. PizzaDelivery worker will pick the completed order and set the status as Delievered.
