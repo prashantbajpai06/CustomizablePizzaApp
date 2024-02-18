@@ -64,3 +64,14 @@ background-color: #ff8c66; /* Change background color on hover */
 .component-container {
   margin-bottom: 20px; /* Adjust the value as needed */
 }
+
+.pizza-image {
+  text-align: center; /* Align the image in the center */
+}
+
+.pizza-img {
+  width: 100px; /* Adjust the width of the image */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 5px; /* Add border radius for rounded corners */
+  margin-bottom: 10px; /* Add some bottom margin for spacing */
+}

@@ -14,6 +14,8 @@ export class CheeseComponent implements OnInit {
   cheeses: { type: string, cost: number }[] = [];
   selectedCheese: string = '';
   @Output() cheeseSelected: EventEmitter<string> = new EventEmitter<string>();
+  extraCheese: boolean = false;
+  extraCheeseCost: number = 1; // Additional cost for extra cheese
 
   constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 

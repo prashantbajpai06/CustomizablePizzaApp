@@ -1,6 +1,6 @@
 <div class="form-group">
     <label class="form-label">Choose Crust Size:</label>
     <select class="form-control" [(ngModel)]="selectedCrustSize" #crustSizeSelect (change)="onSelectCrustSize(crustSizeSelect.value)">
-      <option *ngFor="let size of crustSizes" [value]="size.type">{{ size.type }} (${{ size.cost }})</option>
+      <option *ngFor="let size of crustSizes" [value]="size.type">{{ size.type }} (+{{ size.cost | currency:'INR':true }})</option>
     </select>
 </div>

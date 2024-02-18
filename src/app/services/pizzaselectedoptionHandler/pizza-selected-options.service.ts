@@ -26,8 +26,6 @@ export class PizzaSelectedOptionsService {
   }
 
   getDefaultOptions(): Observable<PizzaOptions> {
-    // Here you would fetch the default options from your backend or provide predefined defaults
-    // For demonstration, let's assume predefined defaults
     const defaultOptions: PizzaOptions = {
       selectedDiet: 'Vegetarian',
       crustSize: 'Small',
