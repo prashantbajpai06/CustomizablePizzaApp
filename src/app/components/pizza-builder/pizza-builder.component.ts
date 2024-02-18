@@ -11,11 +11,11 @@ import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionH
 })
 
 export class PizzaBuilderComponent implements OnInit {
-  selectedSauce: string = 'Tomato';
-  selectedCheese: string = 'Cheddar';
-  selectedToppings: string[] = ["Onions"];
-  selectedCrustSize: string = 'Small';
-  selectedDietOptions: string = 'Vegetarian';
+  selectedSauce: string = '';
+  selectedCheese: string = '';
+  selectedToppings: string[] = [""];
+  selectedCrustSize: string = '';
+  selectedDietOptions: string = '';
   totalCost: number = 0;
 
   orderId: string | null = null;
@@ -40,6 +40,26 @@ export class PizzaBuilderComponent implements OnInit {
     });
   }
 
+ onDietSelected(diet: string): void {
+    this.selectedDietOptions = diet;
+  }
+
+  onSauceSelected(sauce: string): void {
+    this.selectedSauce = sauce;
+  }
+
+  onCheeseSelected(cheese: string): void {
+    this.selectedCheese = cheese;
+  }
+
+  onCrustSizeSelected(crustSize: string): void {
+    this.selectedCrustSize = crustSize;
+  }
+
+  onToppingsSelected(toppings: { [key: string]: boolean }): void {
+    this.selectedToppings = Object.keys(toppings);
+  }
+
   placeOrder(): void {
     const pizzaOrder: PizzaOrder = {
       orderId: '',
@@ -50,7 +70,7 @@ export class PizzaBuilderComponent implements OnInit {
       cheese: this.selectedCheese,
       crustSize: this.selectedCrustSize,
       toppings: this.selectedToppings,
-      totalCost: this.totalCost,
+      totalAmount: this.totalCost,
       status: 'Pending' // Set default status
     };
     this.orderId = this.orderService.placeOrder(pizzaOrder);

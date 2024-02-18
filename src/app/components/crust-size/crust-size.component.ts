@@ -10,9 +10,9 @@ import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
   styleUrls: ['./crust-size.component.css']
 })
 export class CrustSizeComponent implements OnInit {
-  @Output() crustSizeSelected: EventEmitter<string> = new EventEmitter<string>();
   crustSizes: { type: string, cost: number }[] = [];
   selectedCrustSize: string = '';
+  @Output() crustSizeSelected: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
@@ -36,6 +36,7 @@ export class CrustSizeComponent implements OnInit {
 
   onSelectCrustSize(size: string): void {
     this.selectedCrustSize = size;
+    this.crustSizeSelected.emit(this.selectedCrustSize);
     const selectedOptions = { crustSize: size };
     this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }

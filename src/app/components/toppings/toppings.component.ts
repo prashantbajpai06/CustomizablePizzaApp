@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
 import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
 import { Observable, throwError } from 'rxjs';
@@ -12,6 +12,7 @@ import { catchError, map } from 'rxjs/operators';
 export class ToppingsComponent implements OnInit {
   toppings: { type: string, cost: number }[] = [];
   selectedToppings: { [key: string]: boolean } = {};
+  @Output() toppingsSelected: EventEmitter<{[key: string]: boolean }> = new EventEmitter<{ [key: string]: boolean }>();
 
   constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
@@ -33,6 +34,7 @@ export class ToppingsComponent implements OnInit {
 
   onSelectTopping(event: any, toppingType: string): void {
     this.selectedToppings[toppingType] = event.target.checked;
+    this.toppingsSelected.emit(this.selectedToppings);
     const selectedOptions = { toppings: Object.keys(this.selectedToppings).filter(key => this.selectedToppings[key]) };
     this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }

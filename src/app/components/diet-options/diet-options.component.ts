@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter, Output, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-diet-options',
@@ -6,9 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./diet-options.component.css']
 })
 export class DietOptionsComponent {
-  selectedDiet: string = ''; // 'vegetarian' or 'nonvegetarian'
+  selectedDiet: string = 'vegetarian'; // 'vegetarian' or 'nonvegetarian'
+  @Output() dietSelected: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor() { }
 
   updateSelectedDiet(diet: string): void {
     this.selectedDiet = diet;
+    this.dietSelected.emit(this.selectedDiet);
   }
 }

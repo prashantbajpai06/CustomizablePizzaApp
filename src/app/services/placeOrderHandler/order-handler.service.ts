@@ -12,7 +12,7 @@ export class OrderHandlerService {
 
   placeOrder(order: PizzaOrder): string {
     // Generate a unique order ID
-    const orderId = '123';
+    const orderId = this.generateOrderId();
     order.orderId = orderId;
     this.postOrder(order).subscribe(
       (response) => {
@@ -32,6 +32,6 @@ export class OrderHandlerService {
 
   private generateOrderId(): string {
     // Generate a unique order ID (you can use a UUID library or a simple timestamp)
-    return 'ORD-' + Math.floor(Math.random() * 1000000);
+    return  Math.floor(Math.random() * 1000000).toString();
   }
 }

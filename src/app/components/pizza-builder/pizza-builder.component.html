@@ -4,15 +4,15 @@
       <h2 class="pizza-builder-heading">Build Your Customizable Pizza</h2>
       <div class="pizza-builder-form">
 
-        <app-diet-options></app-diet-options>
+        <app-diet-options (dietSelected)="onDietSelected($event)"></app-diet-options>
 
-        <app-crust-size></app-crust-size>
+        <app-crust-size (crustSizeSelected)="onCrustSizeSelected($event)"></app-crust-size>
 
-        <app-sauce></app-sauce>
+        <app-sauce (sauceSelected)="onSauceSelected($event)"></app-sauce>
 
-        <app-cheese></app-cheese>
+        <app-cheese (cheeseSelected)="onCheeseSelected($event)"></app-cheese>
 
-        <app-toppings></app-toppings>
+        <app-toppings (toppingsSelected)="onToppingsSelected($event)"></app-toppings>
 
         <!-- Display Total Cost -->
         <div class="total-cost">

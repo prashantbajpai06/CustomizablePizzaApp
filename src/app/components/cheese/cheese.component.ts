@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
@@ -13,6 +13,7 @@ import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
 export class CheeseComponent implements OnInit {
   cheeses: { type: string, cost: number }[] = [];
   selectedCheese: string = '';
+  @Output() cheeseSelected: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
@@ -38,6 +39,7 @@ export class CheeseComponent implements OnInit {
 
   onSelectCheese(cheese: string): void {
     this.selectedCheese = cheese;
+    this.cheeseSelected.emit(this.selectedCheese);
     const selectedOptions = { cheese: cheese};
     this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }

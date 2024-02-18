@@ -7,7 +7,7 @@ export interface PizzaOrder {
     sauce: string;
     cheese: string;
     toppings: string[];
-    totalCost: number;
+    totalAmount: number;
     status: string;
   }
   

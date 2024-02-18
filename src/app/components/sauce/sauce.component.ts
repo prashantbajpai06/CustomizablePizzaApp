@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -12,10 +12,9 @@ import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
 })
 
 export class SauceComponent implements OnInit {
-  //Define property of Sauces array
   sauces: { type: string, cost: number }[] = [];
-  //Hold selection value of sauce
   selectedSauce: string = '';
+  @Output() sauceSelected: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
@@ -40,6 +39,7 @@ export class SauceComponent implements OnInit {
 
   onSelectSauce(sauce: string): void {
     this.selectedSauce = sauce;
+    this.sauceSelected.emit(this.selectedSauce);
     const selectedOptions = { sauce: sauce };
     this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }
