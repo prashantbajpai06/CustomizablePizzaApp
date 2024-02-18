@@ -1,4 +1,3 @@
-// options-data.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -13,13 +12,13 @@ export class OptionsDataService {
   ];
 
   sauces: { type: string, cost: number }[] = [
-    { type: 'Tomato', cost: 0 },
+    { type: 'Tomato', cost: 2 },
     { type: 'Pesto', cost: 1 },
     { type: 'Alfredo', cost: 1.5 }
   ];
 
   cheeses: { type: string, cost: number }[] = [
-    { type: 'Mozzarella', cost: 0 },
+    { type: 'Mozzarella', cost: 1 },
     { type: 'Cheddar', cost: 1 },
     { type: 'Parmesan', cost: 1.5 }
   ];
