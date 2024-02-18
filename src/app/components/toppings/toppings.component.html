@@ -3,7 +3,7 @@
     <div class="toppings-list">
     <div *ngFor="let topping of toppings">
         <label>
-        <input type="checkbox" (change)="updateSelectedToppings(topping.type, $event)">
+        <input type="checkbox" [(ngModel)]="selectedToppings[topping.type]" (change)="onSelectTopping($event, topping.type)">
         {{ topping.type }} (+{{ topping.cost | currency: 'INR':true }})
         </label>
     </div>

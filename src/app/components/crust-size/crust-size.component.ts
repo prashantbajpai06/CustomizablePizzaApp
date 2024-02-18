@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { OptionsService } from '../../services/options.service';
+import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
+import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
 
 @Component({
   selector: 'app-crust-size',
@@ -8,26 +11,32 @@ import { OptionsService } from '../../services/options.service';
 })
 export class CrustSizeComponent implements OnInit {
   @Output() crustSizeSelected: EventEmitter<string> = new EventEmitter<string>();
-  crustSizes: { size: string, cost: number }[] = [];
+  crustSizes: { type: string, cost: number }[] = [];
   selectedCrustSize: string = '';
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
   ngOnInit(): void {
-    // Fetch crust sizes from service
-    this.crustSizes = this.optionsService.getCrustSizes();
-    // Set default crust size
-    this.selectedCrustSize = this.crustSizes[0].size; // Assuming the first size is the default
+    this.fetchcrustSize();
   }
 
-  onSelectCrustSize(event: Event): void {
-    const selectedSize = (event.target as HTMLSelectElement).value;
-    this.crustSizeSelected.emit(selectedSize); // Emit the selected crust size
+  fetchcrustSize(): void {
+    this.pizzaHttpService.fetchCrustSizes().subscribe(
+      (response) => {
+        this.crustSizes = response;
+        if (this.crustSizes.length > 0) {
+          this.selectedCrustSize = this.crustSizes[0].type;
+        }
+      },
+      (error) => {
+        console.error('Error fetching crust sizes:', error);
+      }
+    );
   }
 
-  // Method to update selected crust size
-  updateSelectedCrustSize(): void {
-    // Update crust size selection in service
-    this.optionsService.setSelectedCrustSize(this.selectedCrustSize);
+  onSelectCrustSize(size: string): void {
+    this.selectedCrustSize = size;
+    const selectedOptions = { crustSize: size };
+    this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }
 }

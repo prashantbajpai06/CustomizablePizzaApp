@@ -6,7 +6,7 @@
 
         <app-diet-options></app-diet-options>
 
-        <app-crust-size> (crustSizeSelected)="onSelectCrustSize($event)"> </app-crust-size>
+        <app-crust-size></app-crust-size>
 
         <app-sauce></app-sauce>
 
@@ -25,6 +25,7 @@
         <!-- Order Confirmation Message -->
         <div *ngIf="orderPlaced">
           <p>Congratulations! Your order with ID <strong>{{ orderId }}</strong> has been placed successfully.</p>
+          <p>Track your order <a [routerLink]="['/order-tracking']">here</a>.</p>
         </div>
       </div>      
   </div>

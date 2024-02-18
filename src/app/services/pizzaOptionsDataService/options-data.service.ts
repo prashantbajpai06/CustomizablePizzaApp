@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class OptionsDataService {
   crustSizes: { size: string, cost: number }[] = [
     { size: 'Small', cost: 8 },

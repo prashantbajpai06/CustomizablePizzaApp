@@ -1,27 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { OptionsService } from '../../services/options.service';
+import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
+import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
 
 @Component({
   selector: 'app-cheese',
   templateUrl: './cheese.component.html',
   styleUrls: ['./cheese.component.css']
 })
+
 export class CheeseComponent implements OnInit {
   cheeses: { type: string, cost: number }[] = [];
   selectedCheese: string = '';
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
   ngOnInit(): void {
-    // Fetch cheese options from service
-    this.cheeses = this.optionsService.getCheeses();
-    // Set default selected cheese
-    this.selectedCheese = this.cheeses[0].type; // Assuming the first cheese is the default
+    this.fetchCheese();
   }
 
-  // Method to update selected cheese
-  updateSelectedCheese(): void {
-    // Update cheese selection in service
-    this.optionsService.setSelectedCheese(this.selectedCheese);
+  fetchCheese(): void {
+    this.pizzaHttpService.fetchCheeses().subscribe(
+      (response) => {
+        console.log('Cheese options:', response);
+        this.cheeses = response;
+        // Set default selected cheese after fetching the data
+        if (this.cheeses.length > 0) {
+          this.selectedCheese = this.cheeses[0].type;
+        }
+      },
+      (error) => {
+        console.error('Error fetching cheese:', error);
+      }
+    );
+  }
+
+  onSelectCheese(cheese: string): void {
+    this.selectedCheese = cheese;
+    const selectedOptions = { cheese: cheese};
+    this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }
 }

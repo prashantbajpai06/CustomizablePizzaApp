@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OptionsService } from '../../services/options.service';
+import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
+import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
 
 @Component({
   selector: 'app-sauce',
@@ -10,22 +14,33 @@ import { OptionsService } from '../../services/options.service';
 export class SauceComponent implements OnInit {
   //Define property of Sauces array
   sauces: { type: string, cost: number }[] = [];
-
   //Hold selection value of sauce
   selectedSauce: string = '';
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
   ngOnInit(): void {
-    // Fetch sauces from service
-    this.sauces = this.optionsService.getSauces();
-     // Set default sauce
-     this.selectedSauce = this.sauces[0].type; // Assuming the first sauce is the default
+    this.fetchSauces();
   }
 
-  // Method to update selected sauce
-  updateSelectedSauce(): void {
-    // Update sauce selection in service
-    this.optionsService.setSelectedSauce(this.selectedSauce);
+  fetchSauces(): void {
+    this.pizzaHttpService.fetchSauces().subscribe(
+      (response) => {
+        console.log('Sauce options:', response);
+        this.sauces = response;
+        if (this.sauces.length > 0) {
+          this.selectedSauce = this.sauces[0].type;
+        }
+      },
+      (error) => {
+        console.error('Error fetching Sauces:', error);
+      }
+    );
+  }
+
+  onSelectSauce(sauce: string): void {
+    this.selectedSauce = sauce;
+    const selectedOptions = { sauce: sauce };
+    this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }
 }

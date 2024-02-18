@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { OptionsService } from '../../services/options.service';
+import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
+import {PizzaHttpService} from "../../services/pizzaapi/pizza-api.service"
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toppings',
@@ -8,23 +11,29 @@ import { OptionsService } from '../../services/options.service';
 })
 export class ToppingsComponent implements OnInit {
   toppings: { type: string, cost: number }[] = [];
-  selectedToppings: string[] = [];
+  selectedToppings: { [key: string]: boolean } = {};
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(private pizzaOptionsService: PizzaSelectedOptionsService, private pizzaHttpService: PizzaHttpService) { }
 
   ngOnInit(): void {
-    // Fetch toppings options from service
-    this.toppings = this.optionsService.getToppings();
+    this.fetchtoppings();
   }
 
-  // Method to update selected toppings
-  updateSelectedToppings(topping: string, event: any): void {
-    if (event.target.checked) {
-      // Add topping to selected toppings
-      this.optionsService.addTopping(topping);
-    } else {
-      // Remove topping from selected toppings
-      this.optionsService.removeTopping(topping);
-    }
+  fetchtoppings(): void {
+    this.pizzaHttpService.fetchToppings().subscribe(
+      (response) => {
+        console.log('toppings options:', response);
+        this.toppings = response;
+      },
+      (error) => {
+        console.error('Error fetching Toppings:', error);
+      }
+    );
+  }
+
+  onSelectTopping(event: any, toppingType: string): void {
+    this.selectedToppings[toppingType] = event.target.checked;
+    const selectedOptions = { toppings: Object.keys(this.selectedToppings).filter(key => this.selectedToppings[key]) };
+    this.pizzaOptionsService.updateSelectedOptions(selectedOptions);
   }
 }
