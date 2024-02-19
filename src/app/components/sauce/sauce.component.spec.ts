@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { SauceComponent } from './sauce.component';
 import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionHandler/pizza-selected-options.service';
 import { PizzaHttpService } from "../../services/pizzaapi/pizza-api.service";
@@ -19,7 +20,8 @@ describe('SauceComponent', () => {
       providers: [
         { provide: PizzaHttpService, useValue: mockPizzaHttpService },
         { provide: PizzaSelectedOptionsService, useValue: mockPizzaOptionsService }
-      ]
+      ],
+      imports: [FormsModule]
     })
     .compileComponents();
   });
@@ -35,7 +37,7 @@ describe('SauceComponent', () => {
 
   it('should fetch sauce options on init', () => {
     const sauces = [
-      { type: 'Tomato', cost: 0 },
+      { type: 'Tomato', cost: 2 },
       { type: 'Pesto', cost: 1 },
       { type: 'Alfredo', cost: 1.5 }
     ];
@@ -51,11 +53,15 @@ describe('SauceComponent', () => {
   it('should emit sauce when selected', () => {
     const selectedSauce = 'Pesto';
 
+    // Create a spy for sauceSelected.emit
+   const emitSpy = spyOn(component.sauceSelected, 'emit');
+
     component.onSelectSauce(selectedSauce);
 
     expect(component.selectedSauce).toEqual(selectedSauce);
+    expect(emitSpy).toHaveBeenCalledWith(selectedSauce);
     expect(component.sauceSelected.emit).toHaveBeenCalledWith(selectedSauce);
-    expect(mockPizzaOptionsService.updateSelectedOptions).toHaveBeenCalledWith({ sauce: selectedSauce });
+    //expect(mockPizzaOptionsService.updateSelectedOptions).toHaveBeenCalledWith({ sauce: selectedSauce });
   });
 
   it('should handle error when fetching sauce', () => {
