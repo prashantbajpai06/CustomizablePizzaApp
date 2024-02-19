@@ -12,10 +12,10 @@ import { PizzaSelectedOptionsService } from '../../services/pizzaselectedoptionH
 
 export class PizzaBuilderComponent implements OnInit {
   selectedSauce: string = '';
-  selectedCheese: string = '';
+  selectedCheese: string = 'Mozzarella';
   selectedToppings: string[] = [""];
-  selectedCrustSize: string = '';
-  selectedDietOptions: string = '';
+  selectedCrustSize: string = 'Small';
+  selectedDietOptions: string = 'Vegetarian';
   totalCost: number = 0;
 
   orderId: string | null = null;
@@ -62,7 +62,7 @@ export class PizzaBuilderComponent implements OnInit {
 
   placeOrder(): void {
     const pizzaOrder: PizzaOrder = {
-      orderId: '',
+      orderId: this.orderService.generateOrderId(),
       userName: 'Prashant Bajpai', // Get username from user input or authentication
       userEmail: 'prashantbajpai6492@gmail.com', // Get user email from user input or authentication
       type: this.selectedDietOptions,

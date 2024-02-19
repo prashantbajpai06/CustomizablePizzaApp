@@ -1,6 +1,6 @@
 <div class="form-group">
     <label class="form-label">Choose Cheese:</label>
     <select class="form-control" [(ngModel)]="selectedCheese" #cheeseSelect (change)="onSelectCheese(cheeseSelect.value)">
-      <option *ngFor="let cheese of cheeses" [value]="cheese.type">{{ cheese.type }} (+{{ cheese.cost | currency:'INR':true }})</option>
+      <option *ngFor="let cheese of cheeses" [value]="cheese.type">{{ cheese.type }} (+{{ cheese.cost | currency:'INR':'symbol' }})</option>
     </select>
 </div>

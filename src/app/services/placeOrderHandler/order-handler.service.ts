@@ -11,9 +11,6 @@ export class OrderHandlerService {
   constructor(private http: HttpClient) { }
 
   placeOrder(order: PizzaOrder): string {
-    // Generate a unique order ID
-    const orderId = this.generateOrderId();
-    order.orderId = orderId;
     this.postOrder(order).subscribe(
       (response) => {
         console.log('Order placed successfully:', response);
@@ -23,14 +20,14 @@ export class OrderHandlerService {
         console.error('Error placing order:', error);
       }
     );
-    return orderId;
+    return order.orderId;
   }
 
   postOrder(order: PizzaOrder): Observable<any> {
     return this.http.post<any>(this.apiUrl, order);
   }
 
-  private generateOrderId(): string {
+  generateOrderId(): string {
     // Generate a unique order ID (you can use a UUID library or a simple timestamp)
     return  Math.floor(Math.random() * 1000000).toString();
   }
