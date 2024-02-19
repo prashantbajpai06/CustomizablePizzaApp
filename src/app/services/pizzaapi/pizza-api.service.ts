@@ -3,13 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { CacheService } from '../cache/cache.service';
+import { API_CONFIG } from '../../config';
+import { Orders_CONFIG } from '../../config';
+import { OrderStatusResponse } from '../../models/orderstatusresponse.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class PizzaHttpService {
-  private apiUrl = 'https://localhost:7126/api/PizzaOptionsUI';
+  private apiUrl = API_CONFIG.apiUrl;
 
   constructor(private http: HttpClient, private cacheService: CacheService) { }
 
@@ -33,9 +36,9 @@ export class PizzaHttpService {
     return this.fetchWithCache(url);
   }
 
-  fetchOrderstatus(orderid: string): Observable<string> {
-    const url = `${this.apiUrl}/OrderStatus`;
-    return this.http.get<string>(url);
+  fetchOrderstatus(orderid: string): Observable<OrderStatusResponse> {
+    const url = `${Orders_CONFIG.apiUrl}/${orderid}`;
+    return this.http.get<OrderStatusResponse>(url);
   }
 
   private fetchWithCache(url: string): Observable<any[]> {

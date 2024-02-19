@@ -14,8 +14,10 @@ export class OrderTrackingComponent {
 
   trackOrder(): void {
     this.pizzaHttpService.fetchOrderstatus(this.orderId).subscribe(
-      (status: string) => {
-        this.orderStatus = status;
+      (response) => {
+        console.log('Response:', response);
+        this.orderStatus = response.status;
+        console.log(this.orderStatus);
       },
       (error: any) => {
         console.error('Error fetching order status:', error);
